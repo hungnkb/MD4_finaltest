@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("layouts/header.ejs") %>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Học viên <%=student.name%>
+        </h1>
+        <table>
+            <tr>
+                <td colspan="2">Tên:</td>
+                <td>
+                    <%=student.name%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Lớp: </td>
+                <td>
+                    <%=student.class%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Điểm lý thuyết: </td>
+                <td>
+                    <%=student.theoreticalPoint%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Điểm thực hành: </td>
+                <td>
+                    <%=student.practicePoints%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Điểm thực hành: </td>
+                <td>
+                    <%=student.gpa%>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Điểm thực hành: </td>
+                <td>
+                    <%=student.desc%>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+    <%- include("layouts/cdn.ejs") %>
+</body>
+
+<script>
+    // let logout = () => {
+    //     axios({
+    //         method: 'get',
+    //         url: 'http://localhost:3000/api/logout',
+    //     }).then(result => {
+    //         window.location.replace(
+    //             `http://${window.location.hostname}:${window.location.port}/auth/login`
+    //         )
+    //     })
+    // }
+</script>
+
+</html>

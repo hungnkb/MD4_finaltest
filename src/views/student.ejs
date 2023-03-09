@@ -103,57 +103,8 @@
                 <th><a href="/student/${result.data.student[i]._id}">${result.data.student[i].name}</a></th>
                 <td>${result.data.student[i].class}</td>
                 <td>${result.data.student[i].gpa}</td>
-                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit-modal-${result.data.student[i]._id}">Edit</button> <button onclick="deleteStudent(event, '${result.data.student[i]._id}')" type="submit" class="btn btn-danger">Delete</button></td>
+                <td><a href="/student/edit/${result.data.student[i]._id}"><button type="button" class="btn btn-primary">Edit</button></a> <button onclick="deleteStudent(event, '${result.data.student[i]._id}')" type="submit" class="btn btn-danger">Delete</button></td>
                 </tr>
-
-                <div class="modal fade" id="edit-modal-${result.data.student[i]._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit student</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/api/student" method="post" id="form-add-student">
-                        <div class="mb-3">
-                            <label for="" class="form-label">Mã học viên</label>
-                            <input value="${result.data.student[i].code}" id="code-edit" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Tên</label>
-                            <input value="${result.data.student[i].name}" id="name-edit" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Lớp</label>
-                            <select id="className-${result.data.student[i]._id}" class="form-select classSelectEdit" aria-label="Default select example">
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Điểm lý thuyết</label>
-                            <input value=${result.data.student[i].theoreticalPoint} id="theoPoint-edit" type="number" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Điểm thực hành</label>
-                            <input value=${result.data.student[i].practicePoints} id="practicePoint-edit" type="number" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Đánh giá</label>
-                            <input value=${result.data.student[i].gpa} id="gpa-edit" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Mô tả</label>
-                            <textarea value=${result.data.student[i].desc} id="desc-edit" type="text" class="form-control"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button onclick="submitAddStudent(event)" type="button" class="btn btn-primary">Save
-                        changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
                 `
 

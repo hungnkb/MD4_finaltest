@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("layouts/header.ejs") %>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="/api/student" method="post" id="form-edit-student">
+            <div class="mb-3">
+                <label for="" class="form-label">Mã học viên</label>
+                <input value="<%=student.code%>" id="code" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Tên</label>
+                <input value="<%=student.name%>" id="name" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Lớp</label>
+                <select value="<%=student.class%>" id="className" class="form-select classSelectEdit"
+                    aria-label="Default select example">
+                </select>
+                <option value="<%=student.class%>"><%=student.class%></option>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Điểm lý thuyết</label>
+                <input value="<%=student.theoreticalPoint%>" id="theoPoint" type="number"
+                    class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Điểm thực hành</label>
+                <input value="<%=student.practicePoints%>" id="practicePoint" type="number"
+                    class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Đánh giá</label>
+                <input value='<%=student.gpa%>' id="gpa-edit" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Mô tả</label>
+                <textarea value='' id="desc-edit" type="text"
+                    class="form-control"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="submitAddStudent(event)" type="button" class="btn btn-primary">Save
+                    changes</button>
+            </div>
+        </form>
+    </div>
+
+    </div>
+
+    <%- include("layouts/cdn.ejs") %>
+</body>
+
+<script>
+    // let logout = () => {
+    //     axios({
+    //         method: 'get',
+    //         url: 'http://localhost:3000/api/logout',
+    //     }).then(result => {
+    //         window.location.replace(
+    //             `http://${window.location.hostname}:${window.location.port}/auth/login`
+    //         )
+    //     })
+    // }
+    let submitAddStudent = (event) => {
+        let form = document.querySelector('#form-edit-student')
+        let code = document.querySelector('#code')
+        let name = document.querySelector('#name')
+        let className = document.querySelector('#className')
+        let theoPoint = document.querySelector('#theoPoint')
+        let practicePoint = document.querySelector('#practicePoint')
+        let gpa = document.querySelector('#gpa')
+        let desc = document.querySelector('#desc')
+        console.log(form, code, name, className, theoPoint, practicePoint, gpa, desc);
+ 
+    } 
+</script>
+
+</html>
