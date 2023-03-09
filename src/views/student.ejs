@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("layouts/header.ejs") %>
+</head>
+
+<body onload="renderTable(event); setClassEdit(event)">
+
+    <div class="container" style="box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px; border-radius: 10px">
+        <h1>Student Manager</h1>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add-modal"
+            onclick="setClassAddModal(event)">
+            Add
+        </button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Lớp</th>
+                    <th scope="col">Đánh giá</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="table-student" class="table-group-divider">
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="add-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add student</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/api/student" method="post" id="form-add-student">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Mã học viên</label>
+                            <input id="code" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tên</label>
+                            <input id="name" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Lớp</label>
+                            <select id="className" class="form-select" aria-label="Default select example">
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Điểm lý thuyết</label>
+                            <input id="theoPoint" type="number" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Điểm thực hành</label>
+                            <input id="practicePoint" type="number" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Đánh giá</label>
+                            <input id="gpa" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Mô tả</label>
+                            <textarea id="desc" type="text" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="submitAddStudent(event)" type="button" class="btn btn-primary">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <%- include("layouts/cdn.ejs") %>
+</body>
+
+<script>
+
+    let renderTable = (event) => {
+
+        axios({
+            method: 'get',
+            url: `${window.location.origin}/api/student`
+        }).then(result => {
+    
+            for (let i = 0; i < result.data.student.length; i++) {
+                document.querySelector('#table-student').innerHTML += `
+                <tr>
+                <th>${i + 1}</th>
+                <th><a href="/student/${result.data.student[i]._id}">${result.data.student[i].name}</a></th>
+                <td>${result.data.student[i].class}</td>
+                <td>${result.data.student[i].gpa}</td>
+                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit-modal-${result.data.student[i]._id}">Edit</button> <button onclick="deleteStudent(event, '${result.data.student[i]._id}')" type="submit" class="btn btn-danger">Delete</button></td>
+                </tr>
+
+                <div class="modal fade" id="edit-modal-${result.data.student[i]._id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit student</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/api/student" method="post" id="form-add-student">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Mã học viên</label>
+                            <input value="${result.data.student[i].code}" id="code-edit" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tên</label>
+                            <input value="${result.data.student[i].name}" id="name-edit" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Lớp</label>
+                            <select id="className-${result.data.student[i]._id}" class="form-select classSelectEdit" aria-label="Default select example">
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Điểm lý thuyết</label>
+                            <input value=${result.data.student[i].theoreticalPoint} id="theoPoint-edit" type="number" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Điểm thực hành</label>
+                            <input value=${result.data.student[i].practicePoints} id="practicePoint-edit" type="number" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Đánh giá</label>
+                            <input value=${result.data.student[i].gpa} id="gpa-edit" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Mô tả</label>
+                            <textarea value=${result.data.student[i].desc} id="desc-edit" type="text" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button onclick="submitAddStudent(event)" type="button" class="btn btn-primary">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                `
+
+            }
+        })
+
+    }
+
+    let submitAddStudent = (event) => {
+        event.preventDefault();
+        let form = document.querySelector('#form-add-student');
+
+        let code = document.querySelector('#code');
+        let name = document.querySelector('#name');
+        let className = document.querySelector('#className');
+        let theoPoint = document.querySelector('#theoPoint');
+        let practicePoint = document.querySelector('#practicePoint');
+        let gpa = document.querySelector('#gpa');
+        let desc = document.querySelector('#desc');
+     
+        axios({
+            method: form.method,
+            url: form.action,
+            data: {
+                code: code.value,
+                name: name.value,
+                className: className.value,
+                theoPoint: theoPoint.value,
+                practicePoint: practicePoint.value,
+                gpa: gpa.value,
+                desc: desc.value,
+            }
+        })
+            .then(result => {
+
+                window.location.replace(
+                    `http://${window.location.hostname}:${window.location.port}/student`
+                )
+
+
+            })
+    }
+
+    let setClassAddModal = (event) => {
+
+        event.preventDefault();
+        axios({
+            method: 'get',
+            url: `${window.location.origin}/api/class`
+        }).then(result => {
+            for (let i = 0; i < result.data.classes.length; i++) {
+                document.querySelector('#className').innerHTML += `
+                <option value="${result.data.classes[i].nameClass}">${result.data.classes[i].nameClass}</option>
+                `
+            }
+        })
+    }
+
+    let deleteStudent = (event, code) => {
+        event.preventDefault();
+        axios({
+            method: 'delete',
+            url: `${window.location.origin}/api/student/${code}`
+        }).then(result => {
+            window.location.replace(
+                `http://${window.location.hostname}:${window.location.port}/student`
+            )
+        })
+    }
+
+    let setClassEdit = event => {
+        event.preventDefault();
+        let rounds = 0;
+        let studentList = [];
+
+        axios({
+            method: 'get',
+            url: `${window.location.origin}/api/student`
+        }).then(result => {
+            studentList = result
+            axios({
+            method: 'get',
+            url: `${window.location.origin}/api/class`
+        }).then(result => {
+            console.log(result);
+            for (let i = 0; i < result.data.classes.length; i++) {
+               document.querySelectorAll('.form-select classSelectEdit').innerHTML += `
+               <option value="${result.data.classes[i].nameClass}">${result.data.classes[i].nameClass}</option>
+               `
+            }
+        })
+        })
+        
+    }
+//className-${result.data.student[i]._id}
+</script>
+
+</html>
