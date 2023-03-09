@@ -52,6 +52,21 @@ class StudentAPI {
     } catch (err) {
       console.log(err);    
     }
+  };
+
+  editStudent = async (req: Request, res: Response) => {
+    let {name, className, theoPoint, practicePoint, gpa, desc} = req.body
+    
+    let editStudent = await Student.findOneAndUpdate({code: req.body.code}, {$set: {
+      name: name,
+      theoreticalPoint: theoPoint,
+      practicePoints: practicePoint,
+      gpa: gpa,
+      desc: desc,
+    }})
+
+      res.status(200).json({message: 'update success'});
+  
   }
 }
 

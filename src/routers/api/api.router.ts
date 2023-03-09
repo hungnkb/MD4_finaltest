@@ -1,7 +1,8 @@
 import express from "express";
 import classApiConstroller from "../../controllers/api/class.api.constroller";
 import studentApiController from "../../controllers/api/student.api.controller";
-import studentController from "../../controllers/student.controller";
+
+
 
 const apiRouter = express.Router();
 
@@ -11,6 +12,7 @@ apiRouter.post('/student', studentApiController.addStudent);
 apiRouter.get('/student', studentApiController.get);
 apiRouter.delete('/student/:code', studentApiController.deleteStudent);
 apiRouter.get('/class', classApiConstroller.get);
+apiRouter.post('/student/edit', studentApiController.editStudent);
 
 // apiRouter.get('/login', apiController.showLogin);
 // apiRouter.post("/register", apiController.register);

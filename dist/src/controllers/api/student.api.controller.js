@@ -45,6 +45,17 @@ class StudentAPI {
                 console.log(err);
             }
         };
+        this.editStudent = async (req, res) => {
+            let { name, className, theoPoint, practicePoint, gpa, desc } = req.body;
+            let editStudent = await student_schema_1.default.findOneAndUpdate({ code: req.body.code }, { $set: {
+                    name: name,
+                    theoreticalPoint: theoPoint,
+                    practicePoints: practicePoint,
+                    gpa: gpa,
+                    desc: desc,
+                } });
+            res.status(200).json({ message: 'update success' });
+        };
     }
 }
 exports.default = new StudentAPI();

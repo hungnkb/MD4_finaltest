@@ -22,27 +22,32 @@
                 <label for="" class="form-label">Lớp</label>
                 <select value="<%=student.class%>" id="className" class="form-select classSelectEdit"
                     aria-label="Default select example">
+                    <option value="<%=student.class%>">
+                        <%=student.class%>
+                    </option>
+                    <%classes.forEach(c=> { %>
+                        <option value="<%=c.nameClass%>">
+                            <%=c.nameClass%>
+                        </option>
+                        <%})%>
                 </select>
-                <option value="<%=student.class%>"><%=student.class%></option>
+
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Điểm lý thuyết</label>
-                <input value="<%=student.theoreticalPoint%>" id="theoPoint" type="number"
-                    class="form-control">
+                <input value="<%=student.theoreticalPoint%>" id="theoPoint" type="number" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Điểm thực hành</label>
-                <input value="<%=student.practicePoints%>" id="practicePoint" type="number"
-                    class="form-control">
+                <input value="<%=student.practicePoints%>" id="practicePoint" type="number" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Đánh giá</label>
-                <input value='<%=student.gpa%>' id="gpa-edit" type="text" class="form-control">
+                <input value='<%=student.gpa%>' id="gpa" type="text" class="form-control">
             </div>
             <div class="mb-3">
                 <label for="" class="form-label">Mô tả</label>
-                <textarea value='' id="desc-edit" type="text"
-                    class="form-control"></textarea>
+                <textarea value='' id="desc" type="text" class="form-control"></textarea>
             </div>
             <div class="modal-footer">
                 <button onclick="submitAddStudent(event)" type="button" class="btn btn-primary">Save
@@ -76,8 +81,27 @@
         let practicePoint = document.querySelector('#practicePoint')
         let gpa = document.querySelector('#gpa')
         let desc = document.querySelector('#desc')
-        console.log(form, code, name, className, theoPoint, practicePoint, gpa, desc);
- 
+        console.log(code.value, name.value, className.value, theoPoint.value, practicePoint.value, gpa.value, desc.value);
+
+        axios({
+            method: 'post',
+            url: 'http://localhost:5000/api/student/edit/',
+            data: {
+                code: code.value,
+                name: name.value,
+                className: className.value,
+                theoPoint: theoPoint.value,
+                practicePoint: practicePoint.value,
+                gpa: gpa.value,
+                desc: desc.value,
+            },
+        }).then(result => {
+            window.location.replace(
+                `http://${window.location.hostname}:${window.location.port}/student`
+            )
+        })
+
+
     } 
 </script>
 

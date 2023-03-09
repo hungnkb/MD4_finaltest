@@ -11,5 +11,6 @@ apiRouter.post('/student', student_api_controller_1.default.addStudent);
 apiRouter.get('/student', student_api_controller_1.default.get);
 apiRouter.delete('/student/:code', student_api_controller_1.default.deleteStudent);
 apiRouter.get('/class', class_api_constroller_1.default.get);
+apiRouter.post('/student/edit', student_api_controller_1.default.editStudent);
 exports.default = apiRouter;
 //# sourceMappingURL=api.router.js.map
